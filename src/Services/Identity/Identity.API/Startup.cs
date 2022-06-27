@@ -27,22 +27,22 @@ namespace Identity.API
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //       options.UseSqlServer(connectionString,
-            //       sqlServerOptionsAction: sqlOptions =>
-            //       {
-            //           sqlOptions.MigrationsAssembly(migrationsAssembly);
-            //           sqlOptions.EnableRetryOnFailure(
-            //               maxRetryCount: 5,
-            //               maxRetryDelay: TimeSpan.FromSeconds(30),
-            //               errorNumbersToAdd: null);
-            //       }));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                   options.UseSqlServer(connectionString,
+                   sqlServerOptionsAction: sqlOptions =>
+                   {
+                       sqlOptions.MigrationsAssembly(migrationsAssembly);
+                       sqlOptions.EnableRetryOnFailure(
+                           maxRetryCount: 5,
+                           maxRetryDelay: TimeSpan.FromSeconds(30),
+                           errorNumbersToAdd: null);
+                   }));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.Configure<AppSettings>(Configuration);
+            services.Configure<AppSettings>(Configuration);
 
             services.AddIdentityServer(x =>
             {

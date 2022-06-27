@@ -1,4 +1,8 @@
 using Identity.API;
+using Identity.API.Database;
+using Identity.API.Extensions;
+using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.Extensions.Options;
 using Serilog;
 using System.Reflection;
 public class Program
@@ -17,23 +21,23 @@ public class Program
             var host = BuildWebHost(configuration, args);
 
             Log.Information("Applying migrations ({ApplicationContext})...", appName);
-            //host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-            //    .MigrateDbContext<ApplicationDbContext>((context, services) =>
-            //    {
-            //        var env = services.GetService<IWebHostEnvironment>();
-            //        var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
-            //        var settings = services.GetService<IOptions<AppSettings>>();
+            host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
+                .MigrateDbContext<ApplicationDbContext>((context, services) =>
+                {
+                    var env = services.GetService<IWebHostEnvironment>();
+                    var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
+                    var settings = services.GetService<IOptions<AppSettings>>();
 
-            //        new ApplicationDbContextSeed()
-            //            .SeedAsync(context, env, logger, settings)
-            //            .Wait();
-            //    })
-            //    .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-            //    {
-            //        new ConfigurationDbContextSeed()
-            //            .SeedAsync(context, configuration)
-            //            .Wait();
-            //    });
+                    new ApplicationDbContextSeed()
+                        .SeedAsync(context, env, logger, settings)
+                        .Wait();
+                })
+                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
+                {
+                    new ConfigurationDbContextSeed()
+                        .SeedAsync(context, configuration)
+                        .Wait();
+                });
 
             Log.Information("Starting web host ({ApplicationContext})...", appName);
             host.Run();
