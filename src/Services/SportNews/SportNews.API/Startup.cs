@@ -30,31 +30,21 @@ namespace SportNews.API
             var databaseName = Configuration.GetValue<string>("DatabaseSettings:DatabaseName");
             var mongodbConnectionString = "mongodb://" + user + ":" + password + "@" + server + "/" + databaseName + "?authSource=admin";
 
-            ////1. Setup entity framework
-            //services.AddDbContextPool<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            ////2. Setup idetntity
-            //services.AddIdentity<AppUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-            //services.AddDbContext<ApplicationDbContext>(x => x.UseSqlite("Data Source=LocalDatabase.db"));
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+            });
+            services.AddVersionedApiExplorer(
+                        options =>
+                        {
+                            // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+                            // note: the specified format code will format the version as "'v'major[.minor][-status]"
+                            options.GroupNameFormat = "'v'VVV";
 
-            //services.AddApiVersioning(options =>
-            //{
-            //    options.ReportApiVersions = true;
-            //});
-            //services.AddVersionedApiExplorer(
-            //            options =>
-            //            {
-            //                // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-            //                // note: the specified format code will format the version as "'v'major[.minor][-status]"
-            //                options.GroupNameFormat = "'v'VVV";
-
-            //                // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
-            //                // can also be used to control the format of the API version in route templates
-            //                options.SubstituteApiVersionInUrl = true;
-            //            });
+                            // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+                            // can also be used to control the format of the API version in route templates
+                            options.SubstituteApiVersionInUrl = true;
+                        });
 
             services.AddSingleton<IMongoClient>(c =>
             {
@@ -108,54 +98,52 @@ namespace SportNews.API
                 //c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
-            string issuer = Configuration.GetValue<string>("Tokens:Issuer");
-            string signingKey = Configuration.GetValue<string>("Tokens:Key");
-            byte[] signingKeyBytes = System.Text.Encoding.UTF8.GetBytes(signingKey);
-
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
-            //        .AuthenticationScheme;
-            //    options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
-            //        .AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.RequireHttpsMetadata = false;
-            //    options.SaveToken = true;
-            //    options.TokenValidationParameters = new TokenValidationParameters()
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidIssuer = issuer,
-            //        ValidateAudience = true,
-            //        ValidAudience = issuer,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        ClockSkew = System.TimeSpan.Zero,
-            //        IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
-            //    };
-            //});
+            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
+                    .AuthenticationScheme;
+                options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults
+                    .AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "sportnews_api";
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+                //Fix SSL
+                options.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = delegate { return true; }
+                };
+            });
 
 
             services.Configure<SportNewsSettings>(Configuration);
 
-            ////Health check
-            //services.AddHealthChecks()
-            //        .AddCheck("self", () => HealthCheckResult.Healthy())
-            //        .AddMongoDb(mongodbConnectionString: mongodbConnectionString,
-            //                    name: "mongo",
-            //                    failureStatus: HealthStatus.Unhealthy);
+            //Health check
+            services.AddHealthChecks()
+                    .AddCheck("self", () => HealthCheckResult.Healthy())
+                    .AddMongoDb(mongodbConnectionString: mongodbConnectionString,
+                                name: "mongo",
+                                failureStatus: HealthStatus.Unhealthy);
 
-            //services.AddHealthChecksUI(opt =>
-            //{
-            //    opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
-            //    opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
-            //    opt.SetApiMaxActiveRequests(1); //api requests concurrency
+            services.AddHealthChecksUI(opt =>
+            {
+                opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
+                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
+                opt.SetApiMaxActiveRequests(1); //api requests concurrency
 
-            //    opt.AddHealthCheckEndpoint("News API", "/hc"); //map health check api
-            //})
-            //        .AddInMemoryStorage();
+                opt.AddHealthCheckEndpoint("News API", "/hc"); //map health check api
+            })
+                    .AddInMemoryStorage();
 
-            //services.RegisterCustomServices();
+            services.RegisterCustomServices();
         }
 
         //This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -165,7 +153,11 @@ namespace SportNews.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportNews.API v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.OAuthClientId("sportnews_api_swaggerui");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportNews.API v1");
+                });
             }
             // migrate any database changes on startup (includes initial db creation)
 
