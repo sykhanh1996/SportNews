@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/var/lib/mongodb/data
+    networks:
+      - sport_news
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: Admin@123
+
+  sqlserver:
+    container_name: sqlserver.db
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - '1433:1433'
+    volumes:
+      - sqlserver-data:/var/lib/sqlserver/data
+    networks:
+      - sport_news
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Admin@123
+
+networks:
+  sport_news:
+    driver: bridge
+volumes:
+  mongo-data:
+  sqlserver-data:
