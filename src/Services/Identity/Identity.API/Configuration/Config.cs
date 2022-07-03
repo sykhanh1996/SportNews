@@ -37,14 +37,14 @@ namespace Identity.API.Configuration
             {
                 new Client
                 {
-                    ClientId = "news_web_app",
-                    ClientName = "News Web App Client",
+                    ClientId = "sportnews_web_app",
+                    ClientName = "SportNews Web App Client",
                     ClientSecrets = new List<Secret>
                         {
                             new Secret("secret".Sha256())
                         },
-                    ClientUri = $"{clientUrls["NewsWebApp"]}", // public uri of the client
-                    AllowedCorsOrigins = { clientUrls["NewsWebApp"] },
+                    ClientUri = $"{clientUrls["SportNewsWebApp"]}", // public uri of the client
+                    AllowedCorsOrigins = { clientUrls["SportNewsWebApp"] },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowAccessTokensViaBrowser = false,
                     RequireConsent = false,
@@ -52,11 +52,11 @@ namespace Identity.API.Configuration
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RedirectUris = new List<string>
                         {
-                            $"{clientUrls["NewsWebApp"]}/authentication/login-callback"
+                            $"{clientUrls["SportNewsWebApp"]}/authentication/login-callback"
                         },
                     PostLogoutRedirectUris = new List<string>
                         {
-                            $"{clientUrls["NewsWebApp"]}/authentication/logout-callback"
+                            $"{clientUrls["SportNewsWebApp"]}/authentication/logout-callback"
                         },
                     AllowedScopes = new List<string>
                         {
@@ -73,14 +73,14 @@ namespace Identity.API.Configuration
 
                 new Client
                 {
-                    ClientId = "news_web_admin",
-                    ClientName = "News Web Admin Client",
+                    ClientId = "sportnews_web_admin",
+                    ClientName = "SportNews Web Admin Client",
                     ClientSecrets = new List<Secret>
                         {
                             new Secret("secret".Sha256())
                         },
-                    ClientUri =  $"{clientUrls["NewsWebAdmin"]}", // public uri of the client
-                    AllowedCorsOrigins = { clientUrls["NewsWebAdmin"] },
+                    ClientUri =  $"{clientUrls["SportNewsWebAdmin"]}", // public uri of the client
+                    AllowedCorsOrigins = { clientUrls["SportNewsWebAdmin"] },
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
@@ -88,11 +88,11 @@ namespace Identity.API.Configuration
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RedirectUris = new List<string>
                         {
-                            $"{clientUrls["NewsWebAdmin"]}/authentication/login-callback"
+                            $"{clientUrls["SportNewsWebAdmin"]}/authentication/login-callback"
                         },
                     PostLogoutRedirectUris = new List<string>
                         {
-                           $"{clientUrls["NewsWebAdmin"]}/authentication/logout-callback"
+                           $"{clientUrls["SportNewsWebAdmin"]}/authentication/logout-callback"
                         },
                     AllowedScopes = new List<string>
                         {
@@ -108,13 +108,13 @@ namespace Identity.API.Configuration
 
                 new Client
                 {
-                    ClientId = "news_api_swaggerui",
-                    ClientName = "News API Swagger UI",
+                    ClientId = "sportnews_api_swaggerui",
+                    ClientName = "SportNews API Swagger UI",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris = { $"{clientUrls["NewsApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{clientUrls["NewsApi"]}/swagger/" },
+                    RedirectUris = { $"{clientUrls["SportNewsWebApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientUrls["SportNewsWebApi"]}/swagger/" },
 
                     AllowedScopes =
                         {
