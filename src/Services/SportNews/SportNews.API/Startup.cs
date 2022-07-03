@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using SportNews.API.Filters;
 using SportNews.Application.Mapping;
 using SportNews.Application.Queries.V1.Categories.GetCategoriesPaging;
 using SportNews.Infrastructure.MongoDb.SeedWork;
@@ -66,36 +67,25 @@ namespace SportNews.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "News.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportNews.API", Version = "v1" });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows()
                     {
-                        new OpenApiSecurityScheme
+                        Implicit = new OpenApiOAuthFlow()
                         {
-                            Reference = new OpenApiReference
+                            AuthorizationUrl = new Uri($"{Configuration.GetValue<string>("IdentityUrl")}/connect/authorize"),
+                            TokenUrl = new Uri($"{Configuration.GetValue<string>("IdentityUrl")}/connect/token"),
+                            Scopes = new Dictionary<string, string>()
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                        },
-                        new List<string>()
+                                {"full_access", "Full Access"},
+                            }
+                        }
                     }
                 });
-                //c.OperationFilter<AuthorizeCheckOperationFilter>();
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
