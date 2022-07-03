@@ -88,6 +88,9 @@
               "browserTarget": "nobleui-angular:build:development"
             }
           },
+          "options": {
+            "port": 6001
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
