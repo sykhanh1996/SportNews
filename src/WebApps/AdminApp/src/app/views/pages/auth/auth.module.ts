@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { AuthCallbackModule } from './auth-callback/auth-callback.module';
 
 const routes: Routes = [
   {
@@ -22,13 +24,17 @@ const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent
+      },
+      {
+        path: 'auth-callback',
+        component: AuthCallbackModule
       }
     ]
   },
 ]
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, AuthComponent],
+  declarations: [LoginComponent, RegisterComponent, AuthComponent, AuthCallbackComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes)
