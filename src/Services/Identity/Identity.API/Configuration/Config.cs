@@ -18,8 +18,8 @@ namespace Identity.API.Configuration
         {
             return new[]{
                 new ApiResource{
-                    Name = "news_api",
-                    DisplayName= "News API"
+                    Name = "sportnews_api",
+                    DisplayName= "SportNews API"
                 }
             };
         }
@@ -88,11 +88,11 @@ namespace Identity.API.Configuration
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RedirectUris = new List<string>
                         {
-                            $"{clientUrls["SportNewsWebAdmin"]}/authentication/login-callback"
+                            $"{clientUrls["SportNewsWebAdmin"]}/auth/auth-callback"
                         },
                     PostLogoutRedirectUris = new List<string>
                         {
-                           $"{clientUrls["SportNewsWebAdmin"]}/authentication/logout-callback"
+                           $"{clientUrls["SportNewsWebAdmin"]}"
                         },
                     AllowedScopes = new List<string>
                         {

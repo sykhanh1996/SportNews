@@ -14,9 +14,9 @@ namespace Identity.API.Database
             //callbacks urls from config:
             var clientUrls = new Dictionary<string, string>
             {
-                {"NewsWebApp", configuration.GetValue<string>("NewsWebAppClient")},
-                {"NewsWebAdmin", configuration.GetValue<string>("NewsWebAdminClient")},
-                {"NewsApi", configuration.GetValue<string>("NewsApiClient")}
+                {"SportNewsWebApp", configuration.GetValue<string>("SportNewsWebAppClient")},
+                {"SportNewsWebAdmin", configuration.GetValue<string>("SportNewsWebAdminClient")},
+                {"SportNewsWebApi", configuration.GetValue<string>("SportNewsWebApiClient")}
             };
 
 

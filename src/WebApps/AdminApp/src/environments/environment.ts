@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://localhost:6002',
-  authorityUrl: 'https://localhost:6002',
+  authorityUrl: 'https://localhost:5001',
   clientId: 'sportnews_web_admin',
   adminUrl: 'http://localhost:6001'
 };
