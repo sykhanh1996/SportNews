@@ -34,6 +34,7 @@
     "@swimlane/ngx-datatable": "^20.0.0",
     "angular-archwizard": "^7.0.0",
     "angular-cropperjs": "^1.0.2",
+    "angular-oauth2-oidc": "^13.0.1",
     "animate.css": "^4.1.1",
     "apexcharts": "^3.35.0",
     "bootstrap": "^5.1.3",

@@ -68,9 +68,11 @@ export function getClientSettings(): UserManagerSettings {
         redirect_uri: environment.adminUrl + "/auth/auth-callback",
         post_logout_redirect_uri: environment.adminUrl,
         response_type: "code",
-        scope: "openid profile offline_access full_access",
+        scope: "openid profile full_access",
         filterProtocolClaims: true,
         client_secret: "secret",
-        loadUserInfo: true
+        loadUserInfo: true,
+        automaticSilentRenew: true,
+        silent_redirect_uri:  environment.adminUrl + "/dashboard",
     };
 }

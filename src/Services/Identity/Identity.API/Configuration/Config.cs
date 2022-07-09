@@ -98,7 +98,7 @@ namespace Identity.API.Configuration
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
-                            IdentityServerConstants.StandardScopes.OfflineAccess,
+                            //IdentityServerConstants.StandardScopes.OfflineAccess,
                             "full_access",
                         },
                     AccessTokenLifetime = 60 * 60 * 2, // 2 hours
