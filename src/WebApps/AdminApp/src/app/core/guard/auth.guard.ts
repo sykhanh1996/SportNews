@@ -9,11 +9,11 @@ import { AuthService } from '../shared';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authService.isAuthenticated()) {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (await this.authService.isAuthenticated()) {
       return true;
     }
-    this.router.navigate(['/auth/login'], { queryParams: { redirect: state.url }, replaceUrl: true });
+    this.router.navigate(['/auth/login']);
     return false;
   }
 }

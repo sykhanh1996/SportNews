@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "@environments/environment";
-import { User, UserManager, UserManagerSettings } from "oidc-client";
+import { User, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client";
 import { BehaviorSubject } from "rxjs";
 import { BaseService } from "./base.service";
 
@@ -19,10 +19,9 @@ export class AuthService extends BaseService {
 
     constructor() {
         super();
-
         this.manager.getUser().then((user) => {
             this.user = user;
-            this._authNavStatusSource.next(this.isAuthenticated());
+            return user;
         });
     }
 
@@ -31,12 +30,24 @@ export class AuthService extends BaseService {
     }
 
     async completeAuthentication() {
-        this.user = await this.manager.signinRedirectCallback();
-        this._authNavStatusSource.next(this.isAuthenticated());
+        await this.manager.signinRedirectCallback().then((user) => {
+            // this.manager.storeUser(user);
+            this.user = user;
+        });
     }
 
-    isAuthenticated(): boolean {
-        return this.user != null && !this.user.expired;
+    async isAuthenticated(): Promise<boolean> {
+        return this.manager.getUser().then((user) => {
+            if (user != null && !user.expired) {
+                return true;
+            }
+            // need clear first and then remove to not auto generate new item in localStorage
+            this.manager.clearStaleState();
+            this.manager.removeUser();
+            return false;
+        }).catch((err) => {
+            return false;
+        });
     }
 
     get authorizationHeaderValue(): string {
@@ -47,7 +58,7 @@ export class AuthService extends BaseService {
     }
 
     get name(): string {
-        if(this.user != null){
+        if (this.user != null) {
             return this.user.profile.name ? this.user.profile.name : "";
         }
         return '';
@@ -72,7 +83,8 @@ export function getClientSettings(): UserManagerSettings {
         filterProtocolClaims: true,
         client_secret: "secret",
         loadUserInfo: true,
-        automaticSilentRenew: true,
-        silent_redirect_uri:  environment.adminUrl + "/dashboard",
+        automaticSilentRenew: false,
+        silent_redirect_uri: environment.adminUrl + "/dashboard",
+        userStore: new WebStorageStateStore({ store: window.localStorage })
     };
 }
