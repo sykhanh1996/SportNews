@@ -31,6 +31,7 @@ namespace SportNews.API
             var server = Configuration.GetValue<string>("DatabaseSettings:Server");
             var databaseName = Configuration.GetValue<string>("DatabaseSettings:DatabaseName");
             var mongodbConnectionString = "mongodb://" + user + ":" + password + "@" + server + "/" + databaseName + "?authSource=admin";
+            services.AddHttpContextAccessor();
 
             services.AddApiVersioning(options =>
             {
