@@ -37,7 +37,7 @@ namespace SportNews.Domain.SeedWork
             _domainEvents?.Clear();
         }
 
-        public bool IsTransient()
+        public bool IsTransient()//Kiem tra xem co la Entity Moi khong
         {
             return this.Id == default;
         }
@@ -61,7 +61,7 @@ namespace SportNews.Domain.SeedWork
                 return item.Id == this.Id;
         }
 
-        public override int GetHashCode()
+        public override int GetHashCode() //Check xem Entity nay co Transient khong
         {
             if (!IsTransient())
             {

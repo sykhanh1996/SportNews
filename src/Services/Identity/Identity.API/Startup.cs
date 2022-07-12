@@ -97,8 +97,8 @@ namespace Identity.API
 
             services.AddHealthChecksUI(opt =>
             {
-                opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
-                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
+                opt.SetEvaluationTimeInSeconds(60*60); //time in seconds between check
+                opt.MaximumHistoryEntriesPerEndpoint(60*60*2); //maximum history of checks
                 opt.SetApiMaxActiveRequests(1); //api requests concurrency
 
                 opt.AddHealthCheckEndpoint("Identity API", "/hc"); //map health check api

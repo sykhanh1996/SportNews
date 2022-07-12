@@ -115,7 +115,7 @@ namespace Identity.API.Configuration
 
                     RedirectUris = { $"{clientUrls["SportNewsWebApi"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{clientUrls["SportNewsWebApi"]}/swagger/" },
-
+                    AllowedCorsOrigins = { clientUrls["SportNewsWebApi"] },
                     AllowedScopes =
                         {
                             "full_access",

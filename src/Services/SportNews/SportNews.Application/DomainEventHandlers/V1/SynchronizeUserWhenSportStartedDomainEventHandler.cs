@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace SportNews.Application.DomainEventHandlers.V1
 {
     //public class SynchronizeUserWhenExamStartedDomainEventHandler : INotificationHandler<ExamStartedDomainEvent>
-    public class SynchronizeUserWhenExamStartedDomainEventHandler
+    public class SynchronizeUserWhenSportStartedDomainEventHandler //chua nhung thong tin ve event handler, VD: tu dong dong bo User khi start domain
     {
         private readonly IUserRepository _userRepository;
-        public SynchronizeUserWhenExamStartedDomainEventHandler(
+        public SynchronizeUserWhenSportStartedDomainEventHandler(
             IUserRepository userRepository)
         {
             _userRepository = userRepository;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using SportNews.API.Extensions;
 using SportNews.API.Filters;
 using SportNews.Application.Mapping;
 using SportNews.Application.Queries.V1.Categories.GetCategoriesPaging;
@@ -125,11 +126,11 @@ namespace SportNews.API
 
             services.AddHealthChecksUI(opt =>
             {
-                opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
-                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
+                opt.SetEvaluationTimeInSeconds(60*60); //time in seconds between check
+                opt.MaximumHistoryEntriesPerEndpoint(60*60*2); //maximum history of checks
                 opt.SetApiMaxActiveRequests(1); //api requests concurrency
 
-                opt.AddHealthCheckEndpoint("News API", "/hc"); //map health check api
+                opt.AddHealthCheckEndpoint("SportNews API", "/hc"); //map health check api
             })
                     .AddInMemoryStorage();
 
@@ -151,8 +152,10 @@ namespace SportNews.API
             }
             // migrate any database changes on startup (includes initial db creation)
 
-            app.UseHttpsRedirection();
+            app.UseErrorWrapping();
 
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseRouting();
             app.UseCors("CorsPolicy");
 
@@ -188,8 +191,6 @@ namespace SportNews.API
                         );
                 endpoints.MapControllers();
             });
-
-
         }
     }
 }
