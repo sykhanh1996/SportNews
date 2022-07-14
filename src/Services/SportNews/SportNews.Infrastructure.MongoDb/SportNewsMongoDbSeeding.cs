@@ -6,6 +6,7 @@ using Polly;
 using Polly.Retry;
 using SportNews.Domain.AggregateModels.CategoryAggregate;
 using SportNews.Infrastructure.MongoDb.SeedWork;
+using SportNews.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +34,11 @@ namespace SportNews.Infrastructure.MongoDb
                     await database.GetCollection<Category>(Constants.Collections.Category)
                         .InsertManyAsync(new List<Category>()
                         {
-                            new Category(categoryId1,"Category 1","category-1"),
-                            new Category(categoryId2,"Category 2","category-1"),
-                            new Category(categoryId3,"Category 3","category-3"),
-                            new Category(categoryId4,"Category 4","category-4"),
+                            new Category(categoryId1,"Category 1",null,Status.Active),
+                            new Category(categoryId2,"Category 2",null,Status.Active),
+                            new Category(categoryId3,"Category 3",null,Status.Active),
+                            new Category(categoryId4,"Category 4",null,Status.Active),
+                            new Category(categoryId4,"Category 5",null,Status.InActive),
                         });
                 }
 

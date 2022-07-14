@@ -39,7 +39,12 @@ namespace SportNews.Application.Commands.V1.Categories.CreateCategory
                 _logger.LogError($"Item name existed: {request.Name}");
                 return null;
             }
-            itemToAdd = new Category(ObjectId.GenerateNewId().ToString(), request.Name, request.UrlPath);
+            Category parentCategory = null;
+            if (request.ParentCategory != null)
+            {
+                parentCategory = await _categoryRepository.GetCategoriesByIdAsync(request.ParentCategory.Id);
+            }
+            itemToAdd = new Category(ObjectId.GenerateNewId().ToString(), request.Name, parentCategory, request.Status);
             await _categoryRepository.InsertAsync(itemToAdd);
             var result = _mapper.Map<Category, CategoryDto>(itemToAdd);
             return new ApiSuccessResult<CategoryDto>(200, result);

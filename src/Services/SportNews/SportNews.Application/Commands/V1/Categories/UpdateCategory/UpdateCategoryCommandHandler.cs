@@ -35,7 +35,6 @@ namespace SportNews.Application.Commands.V1.Categories.UpdateCategory
             }
 
             itemToUpdate.Name = request.Name;
-            itemToUpdate.UrlPath = request.UrlPath;
             await _categoryRepository.UpdateAsync(itemToUpdate);
             return new ApiSuccessResult<bool>(200, true, "Update successful");
         }

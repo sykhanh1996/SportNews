@@ -38,8 +38,7 @@ namespace SportNews.Infrastructure.MongoDb.Repositories
         {
             FilterDefinition<Category> filter = Builders<Category>.Filter.Empty;
             if (!string.IsNullOrEmpty(searchKeyword))
-                //filter = Builders<Category>.Filter.Eq(s => s.Name, searchKeyword);
-                filter = Builders<Category>.Filter.Where(s => s.Name.Contains(searchKeyword));
+                filter = Builders<Category>.Filter.Where(s => s.Name.Contains(searchKeyword.ToLower()));
 
             var totalRow = await Collection.Find(filter).CountDocumentsAsync();
             var items = await Collection.Find(filter)

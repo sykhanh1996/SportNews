@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using SportNews.Domain.SeedWork;
+using SportNews.Shared.Enums;
+using SportNews.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,19 @@ using System.Threading.Tasks;
 namespace SportNews.Domain.AggregateModels.CategoryAggregate
 {
     [BsonIgnoreExtraElements]
-    public class Category : Entity, IAggregateRoot
+    public class Category : Entity, IAggregateRoot, ISwitchable
     {
-        public Category(string id, string name, string urlPath) => (Id, Name, UrlPath) = (id, name, urlPath);
+        public Category(string id, string name, Category? parentId, Status status) => (Id, Name, ParentId, Status) = (id, name, parentId, status);
 
         [BsonElement("name")]
         public string Name { get; set; }
 
-        [BsonElement("urlPath")]
-        public string UrlPath { set; get; } //domain/exam-category-1/
+        [BsonElement("parentId")]
+        public Category? ParentId { set; get; }
+
+        [BsonElement("status")]
+        public Status Status { get; set; }
+
+
     }
 }

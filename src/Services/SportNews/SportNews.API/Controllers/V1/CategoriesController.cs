@@ -57,7 +57,8 @@ namespace SportNews.API.Controllers.V1
             {
                 Id = request.Id,
                 Name = request.Name,
-                UrlPath = request.UrlPath
+                ParentCategory = request.ParentId,
+                Status = request.Status
             });
 
             _logger.LogInformation("END: UpdateCategoryAsync");
@@ -74,7 +75,8 @@ namespace SportNews.API.Controllers.V1
             var result = await _mediator.Send(new CreateCategoryCommand()
             {
                 Name = request.Name,
-                UrlPath = request.UrlPath
+                ParentCategory = request.ParentId,
+                Status = request.Status
             });
             if (result == null)
                 return BadRequest(result);

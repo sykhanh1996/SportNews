@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportNews.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,8 +15,7 @@ namespace SportNews.Shared.Categories
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
-        public string UrlPath { get; set; }
+        public CategoryDto? ParentId { get; set; }
+        public Status Status { get; set; }
     }
 }
