@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SportNews.Domain.AggregateModels.CategoryAggregate
 {
     [BsonIgnoreExtraElements]
-    public class Category : Entity, IAggregateRoot, ISwitchable
+    public class Category : Entity, IAggregateRoot, ISwitchable, IDateTracking
     {
         public Category(string id, string name, Category? parentId, Status status) => (Id, Name, ParentId, Status) = (id, name, parentId, status);
 
@@ -24,6 +24,16 @@ namespace SportNews.Domain.AggregateModels.CategoryAggregate
         [BsonElement("status")]
         public Status Status { get; set; }
 
+        [BsonElement("modifiedBy")]
+        public string? ModifiedBy { get; set; }
 
+        [BsonElement("createdBy")]
+        public string? CreatedBy { get; set; }
+
+        [BsonElement("createDate")]
+        public DateTime CreateDate { get; set; }
+
+        [BsonElement("lastModifiedDate")]
+        public DateTime? LastModifiedDate { get; set; }
     }
 }

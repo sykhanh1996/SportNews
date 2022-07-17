@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SportNews.Domain.SeedWork
 {
-    public abstract class Entity : IDateTracking
+    public abstract class Entity 
     {
         private int? _requestedHashCode;
 
@@ -21,18 +21,6 @@ namespace SportNews.Domain.SeedWork
 
         private List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
-
-        [BsonElement("modifiedBy")]
-        public string? ModifiedBy { get; set; }
-
-        [BsonElement("createdBy")]
-        public string? CreatedBy { get; set; }
-
-        [BsonElement("createDate")]
-        public DateTime CreateDate { get; set; }
-
-        [BsonElement("lastModifiedDate")]
-        public DateTime? LastModifiedDate { get; set; }
 
         public void AddDomainEvent(INotification eventItem)
         {
