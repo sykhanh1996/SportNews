@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\SportNews.Shared\SportNews.Shared.csproj" />
     <ProjectReference Include="..\SportNews.Domain\SportNews.Domain.csproj" />
   </ItemGroup>
 

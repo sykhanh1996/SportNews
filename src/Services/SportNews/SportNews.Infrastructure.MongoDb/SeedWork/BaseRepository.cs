@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using SportNews.Domain.SeedWork;
+using SportNews.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,10 @@ namespace SportNews.Infrastructure.MongoDb.SeedWork
 
         public async Task InsertAsync(T obj)
         {
+            if (obj is IDateTracking changedItem)
+            {
+                changedItem.CreatedDate = DateTime.Now;
+            }
             await Collection.InsertOneAsync(obj);
         }
 

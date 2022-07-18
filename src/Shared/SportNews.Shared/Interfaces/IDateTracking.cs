@@ -10,7 +10,7 @@ namespace SportNews.Shared.Interfaces
     {
         string? ModifiedBy { get; set; }
         string? CreatedBy { get; set; }
-        DateTime CreateDate { get; set; }
+        DateTime CreatedDate { get; set; }
         DateTime? LastModifiedDate { get; set; }
     }
 }
