@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SportNews.Application.Extensions
+namespace SportNews.Shared.Extensions
 {
     public static class HttpContextExtensions
     {

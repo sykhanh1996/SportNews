@@ -14,7 +14,7 @@ namespace SportNews.Domain.AggregateModels.PostAggregate
     [BsonIgnoreExtraElements]
     public class Post : Entity, IAggregateRoot, ISwitchable, IDateTracking, IHasSeoMetaData
     {
-        public Post(string id,string title, string description, string content, string thumbnail, string image, List<Category> categories, DateTime? publishedDate, string source, Status status, string? modifiedBy, string? createdBy, DateTime createdDate, DateTime? lastModifiedDate, string seoPageTitle, string seoAlias, string seoKeywords, string seoDescription)
+        public Post(string id,string title, string description, string content, string thumbnail, string image, List<Category> categories, DateTimeOffset? publishedDate, string source, Status status, string seoPageTitle, string seoAlias, string seoKeywords, string seoDescription)
         {
             Id = id;
             Title = title;
@@ -26,10 +26,6 @@ namespace SportNews.Domain.AggregateModels.PostAggregate
             PublishedDate = publishedDate;
             Source = source;
             Status = status;
-            ModifiedBy = modifiedBy;
-            CreatedBy = createdBy;
-            CreatedDate = createdDate;
-            LastModifiedDate = lastModifiedDate;
             SeoPageTitle = seoPageTitle;
             SeoAlias = seoAlias;
             SeoKeywords = seoKeywords;
@@ -55,7 +51,7 @@ namespace SportNews.Domain.AggregateModels.PostAggregate
         public List<Category> Categories { get; set; }
 
         [BsonElement("publishedDate")]
-        public DateTime? PublishedDate { get; set; }
+        public DateTimeOffset? PublishedDate { get; set; }
 
         [BsonElement("source")]
         public string Source { get; set; }
@@ -70,10 +66,10 @@ namespace SportNews.Domain.AggregateModels.PostAggregate
         public string? CreatedBy { get; set; }
 
         [BsonElement("createdDate")]
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
 
         [BsonElement("lastModifiedDate")]
-        public DateTime? LastModifiedDate { get; set; }
+        public DateTimeOffset? LastModifiedDate { get; set; }
 
         [BsonElement("seoPageTitle")]
         public string SeoPageTitle { get; set; }

@@ -16,6 +16,8 @@ namespace SportNews.Shared.Categories
         public string ParentId { get; set; }
 
         public Status Status { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
 
     }
 }

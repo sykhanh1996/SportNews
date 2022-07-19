@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using SportNews.Domain.AggregateModels.CategoryAggregate;
@@ -17,8 +18,8 @@ namespace SportNews.Infrastructure.MongoDb.Repositories
         public CategoryRepository(
           IMongoClient mongoClient,
           IOptions<SportNewsSettings> settings,
-          IMediator mediator)
-      : base(mongoClient, settings, Constants.Collections.Category)
+          IMediator mediator, IHttpContextAccessor httpContextAccessor)
+      : base(mongoClient, settings, Constants.Collections.Category, httpContextAccessor)
         {
         }
 

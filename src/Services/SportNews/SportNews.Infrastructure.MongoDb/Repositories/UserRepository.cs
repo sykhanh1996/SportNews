@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using SportNews.Domain.AggregateModels.UserAggregate;
@@ -15,8 +16,8 @@ namespace SportNews.Infrastructure.MongoDb.Repositories
     {
         public UserRepository(
             IMongoClient mongoClient,
-        IOptions<SportNewsSettings> settings, IMediator mediator)
-        : base(mongoClient, settings, Constants.Collections.User)
+        IOptions<SportNewsSettings> settings, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        : base(mongoClient, settings, Constants.Collections.User, httpContextAccessor)
         {
         }
 

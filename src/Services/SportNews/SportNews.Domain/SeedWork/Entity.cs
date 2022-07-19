@@ -19,8 +19,6 @@ namespace SportNews.Domain.SeedWork
         [BsonElement("_id")]
         public virtual string Id { get; protected set; }
 
-        public DateTime? test { get;set; }
-
         private List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 

@@ -31,9 +31,9 @@ namespace SportNews.Domain.AggregateModels.CategoryAggregate
         public string? CreatedBy { get; set; }
 
         [BsonElement("createdDate")]
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
 
         [BsonElement("lastModifiedDate")]
-        public DateTime? LastModifiedDate { get; set; }
+        public DateTimeOffset? LastModifiedDate { get; set; }
     }
 }
