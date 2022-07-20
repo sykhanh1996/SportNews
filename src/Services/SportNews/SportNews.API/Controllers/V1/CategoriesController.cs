@@ -33,6 +33,7 @@ namespace SportNews.API.Controllers.V1
 
             return Ok(result);
         }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiSuccessResult<CategoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

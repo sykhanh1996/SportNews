@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SportNews.Shared.Categories
 {
-    public class CategoryDto
+    public class CategoryDto 
     {
         public string Id { get; set; }
 

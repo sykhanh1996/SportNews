@@ -30,9 +30,11 @@ namespace SportNews.Domain.AggregateModels.CategoryAggregate
         [BsonElement("createdBy")]
         public string? CreatedBy { get; set; }
 
+        [BsonRepresentation(MongoDB.Bson.BsonType.String)]
         [BsonElement("createdDate")]
         public DateTimeOffset CreatedDate { get; set; }
 
+        [BsonRepresentation(MongoDB.Bson.BsonType.String)]
         [BsonElement("lastModifiedDate")]
         public DateTimeOffset? LastModifiedDate { get; set; }
     }
